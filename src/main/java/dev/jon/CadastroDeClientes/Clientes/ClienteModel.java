@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-@Table(name = "tb_-cadastro")
+@Table(name = "tb_cadastro")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -17,9 +17,10 @@ public class ClienteModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "nome_cliente")
     private String nome;
     @Column(unique = true)
-    private String email;
+    private String telefone;
 
     // um cliente por profissional
     @ManyToOne
