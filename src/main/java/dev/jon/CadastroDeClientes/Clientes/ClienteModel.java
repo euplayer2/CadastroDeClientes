@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Table(name = "tb_cadastro")
 @NoArgsConstructor
@@ -17,14 +16,15 @@ public class ClienteModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "nome_cliente")
+
+    @Column(name = "nome_cliente", nullable = false)
     private String nome;
-    @Column(unique = true)
+
+    @Column(unique = true, nullable = false)
     private String telefone;
 
-    // um cliente por profissional
     @ManyToOne
-    @JoinColumn(name = "profissionais_id")
+    @JoinColumn(name = "profissionais_id", nullable = false)
     private ProfissionaisModel profissionais;
-
 }
+
