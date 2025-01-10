@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table (name = "tb_profissionais")
+@Table(name = "tb_profissionais")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -19,10 +19,9 @@ public class ProfissionaisModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "nome_profissional", nullable = false)
     private String nomeProfissional;
-    private ClienteModel cliente;
 
     @OneToMany(mappedBy = "profissionais")
     private List<ClienteModel> clientes;
-
 }
