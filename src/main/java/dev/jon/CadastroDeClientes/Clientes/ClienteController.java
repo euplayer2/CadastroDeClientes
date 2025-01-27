@@ -3,7 +3,7 @@ package dev.jon.CadastroDeClientes.Clientes;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/clientes")
 public class ClienteController {
     @GetMapping("/boasVindas")
     public String boasVindas() {
@@ -18,15 +18,15 @@ public class ClienteController {
     }
 
     //procurar cliente por id
-    @GetMapping("/todosID")
+    @GetMapping("/listarID")
     public String mostrarTodosOsClientesPorId() {
-        return "mostrando por id";
+        return "listando por id";
     }
 
     //mostrar todos os clientes
-    @GetMapping("/all")
+    @GetMapping("/listar")
     public String mostrarTodosOsClientes() {
-        return "mostrando todos";
+        return "listando todos os clientes";
     }
 
     //alterar dados clientes
