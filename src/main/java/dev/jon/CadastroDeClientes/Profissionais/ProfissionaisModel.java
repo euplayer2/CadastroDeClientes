@@ -22,6 +22,7 @@ public class ProfissionaisModel {
     @Column(name = "nome_profissional", nullable = false)
     private String nomeProfissional;
 
+    //Um profissional para vários clientes
     @OneToMany(mappedBy = "profissionais")
     private List<ClienteModel> clientes;
 }
