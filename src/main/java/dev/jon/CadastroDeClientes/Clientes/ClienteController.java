@@ -2,9 +2,18 @@ package dev.jon.CadastroDeClientes.Clientes;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
+
+    private ClienteService clienteService;
+
+    public ClienteController(ClienteService clienteService) {
+        this.clienteService = clienteService;
+    }
+
     @GetMapping("/boasVindas")
     public String boasVindas() {
         return "Teste mensagem na rota";
@@ -25,8 +34,8 @@ public class ClienteController {
 
     //mostrar todos os clientes
     @GetMapping("/listar")
-    public String mostrarTodosOsClientes() {
-        return "listando todos os clientes";
+    public List<ClienteModel> listarClientes() {
+        return clienteService.listarClientes();
     }
 
     //alterar dados clientes

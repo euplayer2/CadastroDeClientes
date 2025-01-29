@@ -1,5 +1,6 @@
 package dev.jon.CadastroDeClientes.Profissionais;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.jon.CadastroDeClientes.Clientes.ClienteModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,6 @@ public class ProfissionaisModel {
 
     //Um profissional para vários clientes
     @OneToMany(mappedBy = "profissionais")
+    @JsonIgnore
     private List<ClienteModel> clientes;
 }
