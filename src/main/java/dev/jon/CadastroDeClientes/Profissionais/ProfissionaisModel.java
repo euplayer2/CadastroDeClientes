@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "tb_profissionais")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class ProfissionaisModel {
 
     @Id
@@ -27,4 +26,28 @@ public class ProfissionaisModel {
     @OneToMany(mappedBy = "profissionais")
     @JsonIgnore
     private List<ClienteModel> clientes;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNomeProfissional() {
+        return nomeProfissional;
+    }
+
+    public void setNomeProfissional(String nomeProfissional) {
+        this.nomeProfissional = nomeProfissional;
+    }
+
+    public List<ClienteModel> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<ClienteModel> clientes) {
+        this.clientes = clientes;
+    }
 }
