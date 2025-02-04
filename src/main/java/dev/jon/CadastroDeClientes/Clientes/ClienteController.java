@@ -39,9 +39,9 @@ public class ClienteController {
     }
 
     //alterar dados clientes
-    @PutMapping("/alterarID")
-    public String mostrarClientesPorId() {
-        return "alterar";
+    @PutMapping("/alterar/{id}")
+    public ClienteModel alterarCliente (@PathVariable Long id, @RequestBody ClienteModel clienteAtualizado) {
+        return clienteService.atualizarCliente(id, clienteAtualizado);
     }
 
     //deletar clientes
