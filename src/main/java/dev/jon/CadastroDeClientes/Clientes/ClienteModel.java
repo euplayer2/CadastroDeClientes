@@ -6,6 +6,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "tb_cadastro")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClienteModel {
@@ -17,13 +18,15 @@ public class ClienteModel {
     private String nome;
     @Column(unique = true)
     private String telefone;
+    @Column(name = "email")
+    private String email;
 
     // um cliente por profissional
     @ManyToOne
     @JoinColumn(name = "profissionais_id")
     private ProfissionaisModel profissionais;
 
-
+// lombok bugou
     public Long getId() {
         return id;
     }
@@ -32,12 +35,12 @@ public class ClienteModel {
         this.id = id;
     }
 
-    public ProfissionaisModel getProfissionais() {
-        return profissionais;
+    public String getNome() {
+        return nome;
     }
 
-    public void setProfissionais(ProfissionaisModel profissionais) {
-        this.profissionais = profissionais;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getTelefone() {
@@ -48,11 +51,19 @@ public class ClienteModel {
         this.telefone = telefone;
     }
 
-    public String getNome() {
-        return nome;
+    public String getEmail() {
+        return email;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public ProfissionaisModel getProfissionais() {
+        return profissionais;
+    }
+
+    public void setProfissionais(ProfissionaisModel profissionais) {
+        this.profissionais = profissionais;
     }
 }

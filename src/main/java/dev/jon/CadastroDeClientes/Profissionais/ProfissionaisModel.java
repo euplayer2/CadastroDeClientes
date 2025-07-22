@@ -22,11 +22,13 @@ public class ProfissionaisModel {
     @Column(name = "nome_profissional", nullable = false)
     private String nomeProfissional;
 
-    //Um profissional para vários clientes
+
     @OneToMany(mappedBy = "profissionais")
     @JsonIgnore
     private List<ClienteModel> clientes;
 
+
+    //Lombok bugou então tive que fazer manualmente
     public Long getId() {
         return id;
     }
