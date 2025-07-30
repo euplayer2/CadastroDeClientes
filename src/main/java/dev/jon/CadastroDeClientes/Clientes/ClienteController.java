@@ -1,5 +1,7 @@
 package dev.jon.CadastroDeClientes.Clientes;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,14 +24,20 @@ public class ClienteController {
 
     //adicionar cliente
     @PostMapping("/criar")
-    public ClienteDTO criarCliente( @RequestBody ClienteDTO clienteDTO) {
-        return clienteService.criarCliente(clienteDTO);
+    public ResponseEntity <String> criarCliente(@RequestBody ClienteDTO clienteDTO) {
+        ClienteDTO clienteCriado = clienteService.criarCliente(clienteDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Cliente " + clienteCriado.getNome() + " de id " + clienteCriado.getId() + " criado com sucesso");
     }
 
     //procurar cliente por id
     @GetMapping("/listar/{id}")
-    public ClienteDTO listarClientesPorId(@PathVariable Long id) {
-        return clienteService.listarClientesPorId(id);
+    public ResponseEntity<?> listarClientesPorId(@PathVariable Long id) {
+        ClienteDTO cliente =  clienteService.listarClientesPorId(id);
+        if (cliente != null) {
+           return ResponseEntity.ok(cliente);
+        } else {
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+        }
     }
 
     //mostrar todos os clientes
@@ -40,14 +48,24 @@ public class ClienteController {
 
     //alterar dados clientes
     @PutMapping("/alterar/{id}")
-    public ClienteDTO alterarCliente (@PathVariable Long id, @RequestBody ClienteDTO clienteAtualizado) {
-        return clienteService.atualizarCliente(id, clienteAtualizado);
+    public ResponseEntity<?> alterarCliente (@PathVariable Long id, @RequestBody ClienteDTO clienteAtualizado) {
+        ClienteDTO clienteAlterado = clienteService.atualizarCliente(id, clienteAtualizado);
+        if (clienteAlterado != null) {
+           return ResponseEntity.ok(clienteAlterado);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+        }
     }
 
     //deletar clientes
         @DeleteMapping("/deletar/{id}")
-        public void deletarCliente(@PathVariable Long id) {
+        public ResponseEntity<String> deletarCliente(@PathVariable Long id) {
+        if (clienteService.listarClientesPorId(id) != null) {
             clienteService.deletarCliente(id);
+            return ResponseEntity.ok("Cliente " + id + " deletado");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
+        }
         }
 
 }
