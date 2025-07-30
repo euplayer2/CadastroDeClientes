@@ -1,34 +1,72 @@
 package dev.jon.CadastroDeClientes.Profissionais;
 
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("profissionais")
+@RequestMapping("/profissionais")
 public class ProfissionaisController {
 
-    // Envia requisição para mostrar profissionais
-    @GetMapping("/listar")
-    public String listarProfissional() {
-        return "profissionais listados";
+    private final ProfissionaisService profissionaisService;
+
+    public ProfissionaisController(ProfissionaisService profissionaisService) {
+        this.profissionaisService = profissionaisService;
     }
 
-    // Envia requisição para criar profissionais
+    @GetMapping("/boasVindas")
+    @Operation(summary = "Mensagem teste", description = "Testa rapidamente se o controller está funcionando corretamente")
+    public String boasVindas() {
+        return "Teste mensagem na rota de profissionais";
+    }
+
     @PostMapping("/criar")
-    public String criarProfissional() {
-        return "profissional criado";
+    @Operation(summary = "Cria um profissional", description = "Esta rota cria um novo profissional e insere no banco de dados")
+    public ResponseEntity<String> criarProfissional(@RequestBody ProfissionaisDTO profissionaisDTO) {
+        ProfissionaisDTO criado = profissionaisService.criarProfissional(profissionaisDTO);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Profissional " + criado.getNomeProfissional() + " de id " + criado.getId() + " criado com sucesso");
     }
 
-    // Envia requisição para alterar profissionais
-    @PutMapping("/alterar")
-    public String alterarProfissional() {
-        return "profissional alterado";
+    @GetMapping("/listar/{id}")
+    @Operation(summary = "Procura um profissional por ID", description = "Esta rota procura um profissional no banco de dados pelo ID")
+    public ResponseEntity<?> listarProfissionalPorId(@PathVariable Long id) {
+        ProfissionaisDTO profissional = profissionaisService.listarProfissionalPorId(id);
+        if (profissional != null) {
+            return ResponseEntity.ok(profissional);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profissional não encontrado");
+        }
     }
 
-    // Envia requisição para deletar profissionais
-    @DeleteMapping("/deletar")
-    public String deletarProfissional() {
-        return "profissional deletado";
+    @GetMapping("/listar")
+    @Operation(summary = "Lista todos os profissionais", description = "Esta rota mostra todos os profissionais do banco de dados")
+    public List<ProfissionaisDTO> listarProfissionais() {
+        return profissionaisService.listarProfissionais();
     }
 
+    @PutMapping("/alterar/{id}")
+    @Operation(summary = "Alterar dados do profissional", description = "Esta rota altera os dados de um profissional existente")
+    public ResponseEntity<?> alterarProfissional(@PathVariable Long id, @RequestBody ProfissionaisDTO profissionaisDTO) {
+        ProfissionaisDTO alterado = profissionaisService.atualizarProfissional(id, profissionaisDTO);
+        if (alterado != null) {
+            return ResponseEntity.ok(alterado);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profissional não encontrado");
+        }
+    }
 
+    @DeleteMapping("/deletar/{id}")
+    @Operation(summary = "Deletar profissional", description = "Esta rota apaga um profissional presente no banco de dados")
+    public ResponseEntity<String> deletarProfissional(@PathVariable Long id) {
+        if (profissionaisService.listarProfissionalPorId(id) != null) {
+            profissionaisService.deletarProfissional(id);
+            return ResponseEntity.ok("Profissional " + id + " deletado");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profissional não encontrado");
+        }
+    }
 }
